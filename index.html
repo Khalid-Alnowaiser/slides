@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <meta name="author" content="">
+  <title>Automated Generation of SSL Certificates using Certbot / LetsEncrypt</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="https://unpkg.com/reveal.js//dist/reset.css">
+  <link rel="stylesheet" href="https://unpkg.com/reveal.js//dist/reveal.css">
+  <style>
+    .reveal .sourceCode {  /* see #7635 */
+      overflow: visible;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+  <link rel="stylesheet" href="https://unpkg.com/reveal.js//dist/theme/white.css" id="theme">
+  <style>
+  h1,h2,h3,h4,h5,h6 {
+
+      text-transform: none!important;
+  }
+  </style>
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide">
+  <h1 class="title">Automated Generation of SSL Certificates using
+Certbot / LetsEncrypt</h1>
+  <p class="author"></p>
+</section>
+
+<section id="my-setup" class="slide level3">
+<h3>My setup:</h3>
+<ul>
+<li>Ubuntu 24.04 (LTS) x64</li>
+<li>nginx version: nginx/1.24.0 (Ubuntu)</li>
+<li>certbot 2.11.0 with Cloudflare DNS plugin installed</li>
+</ul>
+</section>
+<section id="prerequisites" class="slide level3">
+<h3>Prerequisites:</h3>
+<ul>
+<li>API key with access to edit DNS settings</li>
+<li>Setup config file</li>
+</ul>
+<figure>
+<img src="Images/prerequisites.png"
+alt="Image displaying the prerequisites" />
+<figcaption aria-hidden="true"></figcaption>
+</figure>
+</section>
+<section id="setup" class="slide level3">
+<h3>Setup:</h3>
+<p>I’ve setup an SSL for <a
+href="http://alnowaiser.me">alnowaiser.me</a></p>
+<figure>
+<img src="Images/setup.png" />
+<figcaption aria-hidden="true"></figcaption>
+</figure>
+</section>
+<section id="customer-setup" class="slide level3">
+<h3>Customer setup:</h3>
+<p>Customer (lucidya.khalidalnowaiser.tech) sets up 2 CNAME records:</p>
+<div
+style="background-color: #f5f5f5; padding: 10px; border: 1px solid #ccc;">
+<pre><code>
+Name: lucidya.alnowaiser.tech
+Value: alnowaiser.me
+</code></pre>
+</div>
+
+<div
+style="background-color: #f5f5f5; padding: 10px; border: 1px solid #ccc;">
+<pre><code>
+Name: _acme-challenge.lucidya.khalidalnowaiser.tech
+Value: _acme-challenge.lucidya.khalidalnowaiser.alnowaiser.me
+</code></pre>
+</div>
+</section>
+<section id="generating-txt-record" class="slide level3">
+<h3>Generating TXT record:</h3>
+<p>After the customer adds the CNAME records, we can generate the TXT
+record under our own domain
+<pre><code>_acme-challenge.lucidya.khalidalnowaiser.alnowaiser.me</code></pre> by
+using:</p>
+<div
+style="background-color: #f5f5f5; padding: 10px; border: 1px solid #ccc;">
+<pre><code>
+certbot certonly --dns-cloudflare --dns-cloudflare-credentials (path to cloudflare.ini)/cloudflare.ini -d lucidya.khalidalnowaiser.tech -d *.lucidya.khalidalnowaiser.tech (optional)
+</code></pre>
+</div>
+</section>
+<section id="success-certbot" class="slide level3">
+<h3 style="color: green;">Success</h3>
+<figure>
+  <img src="Images/Success certbot.png" alt="Image showing that the previous command was successful">
+</figure>
+</section>
+<section id="setup-webserver-config" class="slide level3">
+<h3>Setup webserver config:</h3>
+<p>In my case, I’m using nginx (I did it manually, but this can be
+automated)</p>
+<figure>
+<img style="width: 250px;"
+src = "Images/nginx config.png" alt="Image showcasing the nginx config" />
+</figure>
+<p>Afterwards, we have to reload the config for the changes to take
+effect</p>
+</section>
+<section id="why-use-this-approach" class="slide level3">
+<h3>Why Use This Approach?</h3>
+<p>Since we’re using Let’s Encrypt for our SSL certificates, which
+expire every 90 days, we need to renew them approximately every 60 days
+to ensure continuous security.</p>
+<p>Let’s Encrypt uses TXT records to verify domain ownership, and these
+records must be updated each time the SSL certificate is renewed. This
+means the customer would need to manually update the TXT record values
+every 60 days, which is cumbersome and prone to error.</p>
+</section>
+<section id="streamlining-the-process" class="slide level3">
+<h3>Streamlining the process:</h3>
+<p>To streamline this process, we create a “validation zone” that the
+customer will point to using
+<pre><code>_acme-challenge.lucidya.khalidalnowaiser.tech</code></pre></p>
+<p>When Let’s Encrypt checks the TXT records for
+<pre><code>_acme-challenge.lucidya.khalidalnowaiser.tech</code></pre>it will be
+redirected to
+<pre><code>_acme-challenge.lucidya.khalidalnowaiser.alnowaiser.me</code></pre>
+which contains the needed TXT record value.</p>
+</section>
+<section class="slide level3" id="figure">
+  <h3>Process workflow</h3>
+  <div class="mxgraph" style="max-width:100%;border:1px solid transparent;" data-mxgraph="{&quot;highlight&quot;:&quot;#0000ff&quot;,&quot;nav&quot;:true,&quot;resize&quot;:true,&quot;toolbar&quot;:&quot;zoom layers tags lightbox&quot;,&quot;edit&quot;:&quot;_blank&quot;,&quot;xml&quot;:&quot;&lt;mxfile host=\&quot;app.diagrams.net\&quot; modified=\&quot;2024-07-10T09:18:44.001Z\&quot; agent=\&quot;Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36\&quot; etag=\&quot;tiZwcrxG_aN0PMYH54av\&quot; version=\&quot;24.4.0\&quot;&gt;\n  &lt;diagram name=\&quot;Page-1\&quot; id=\&quot;LtMeqzDY8btILnkB2xxZ\&quot;&gt;\n    &lt;mxGraphModel dx=\&quot;2074\&quot; dy=\&quot;2255\&quot; grid=\&quot;1\&quot; gridSize=\&quot;10\&quot; guides=\&quot;1\&quot; tooltips=\&quot;1\&quot; connect=\&quot;1\&quot; arrows=\&quot;1\&quot; fold=\&quot;1\&quot; page=\&quot;1\&quot; pageScale=\&quot;1\&quot; pageWidth=\&quot;850\&quot; pageHeight=\&quot;1100\&quot; math=\&quot;0\&quot; shadow=\&quot;0\&quot;&gt;\n      &lt;root&gt;\n        &lt;mxCell id=\&quot;0\&quot; /&gt;\n        &lt;mxCell id=\&quot;1\&quot; parent=\&quot;0\&quot; /&gt;\n        &lt;mxCell id=\&quot;ERkDgk-Ph-ZObwH7eIWo-4\&quot; style=\&quot;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;\&quot; edge=\&quot;1\&quot; parent=\&quot;1\&quot; source=\&quot;ERkDgk-Ph-ZObwH7eIWo-1\&quot; target=\&quot;ERkDgk-Ph-ZObwH7eIWo-3\&quot;&gt;\n          &lt;mxGeometry relative=\&quot;1\&quot; as=\&quot;geometry\&quot; /&gt;\n        &lt;/mxCell&gt;\n        &lt;mxCell id=\&quot;ERkDgk-Ph-ZObwH7eIWo-1\&quot; value=\&quot;lucidya.khalidalnowaiser.tech\&quot; style=\&quot;rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;\&quot; vertex=\&quot;1\&quot; parent=\&quot;1\&quot;&gt;\n          &lt;mxGeometry x=\&quot;30\&quot; y=\&quot;210\&quot; width=\&quot;170\&quot; height=\&quot;60\&quot; as=\&quot;geometry\&quot; /&gt;\n        &lt;/mxCell&gt;\n        &lt;mxCell id=\&quot;ERkDgk-Ph-ZObwH7eIWo-7\&quot; style=\&quot;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;\&quot; edge=\&quot;1\&quot; parent=\&quot;1\&quot; source=\&quot;ERkDgk-Ph-ZObwH7eIWo-2\&quot; target=\&quot;ERkDgk-Ph-ZObwH7eIWo-6\&quot;&gt;\n          &lt;mxGeometry relative=\&quot;1\&quot; as=\&quot;geometry\&quot; /&gt;\n        &lt;/mxCell&gt;\n        &lt;mxCell id=\&quot;ERkDgk-Ph-ZObwH7eIWo-19\&quot; style=\&quot;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.75;entryY=0;entryDx=0;entryDy=0;\&quot; edge=\&quot;1\&quot; parent=\&quot;1\&quot; source=\&quot;ERkDgk-Ph-ZObwH7eIWo-2\&quot; target=\&quot;ERkDgk-Ph-ZObwH7eIWo-8\&quot;&gt;\n          &lt;mxGeometry relative=\&quot;1\&quot; as=\&quot;geometry\&quot;&gt;\n            &lt;Array as=\&quot;points\&quot;&gt;\n              &lt;mxPoint x=\&quot;90\&quot; y=\&quot;10\&quot; /&gt;\n              &lt;mxPoint x=\&quot;838\&quot; y=\&quot;10\&quot; /&gt;\n            &lt;/Array&gt;\n          &lt;/mxGeometry&gt;\n        &lt;/mxCell&gt;\n        &lt;mxCell id=\&quot;ERkDgk-Ph-ZObwH7eIWo-2\&quot; value=\&quot;Lets Encrypt\&quot; style=\&quot;rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;\&quot; vertex=\&quot;1\&quot; parent=\&quot;1\&quot;&gt;\n          &lt;mxGeometry x=\&quot;30\&quot; y=\&quot;50\&quot; width=\&quot;120\&quot; height=\&quot;60\&quot; as=\&quot;geometry\&quot; /&gt;\n        &lt;/mxCell&gt;\n        &lt;mxCell id=\&quot;ERkDgk-Ph-ZObwH7eIWo-3\&quot; value=\&quot;alnowaiser.me\&quot; style=\&quot;rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;\&quot; vertex=\&quot;1\&quot; parent=\&quot;1\&quot;&gt;\n          &lt;mxGeometry x=\&quot;360\&quot; y=\&quot;210\&quot; width=\&quot;170\&quot; height=\&quot;60\&quot; as=\&quot;geometry\&quot; /&gt;\n        &lt;/mxCell&gt;\n        &lt;mxCell id=\&quot;ERkDgk-Ph-ZObwH7eIWo-5\&quot; value=\&quot;CNAME&amp;amp;nbsp;&amp;lt;div&amp;gt;Redirect&amp;lt;/div&amp;gt;\&quot; style=\&quot;text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;\&quot; vertex=\&quot;1\&quot; parent=\&quot;1\&quot;&gt;\n          &lt;mxGeometry x=\&quot;245\&quot; y=\&quot;203\&quot; width=\&quot;70\&quot; height=\&quot;40\&quot; as=\&quot;geometry\&quot; /&gt;\n        &lt;/mxCell&gt;\n        &lt;mxCell id=\&quot;ERkDgk-Ph-ZObwH7eIWo-9\&quot; style=\&quot;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;\&quot; edge=\&quot;1\&quot; parent=\&quot;1\&quot; source=\&quot;ERkDgk-Ph-ZObwH7eIWo-6\&quot; target=\&quot;ERkDgk-Ph-ZObwH7eIWo-8\&quot;&gt;\n          &lt;mxGeometry relative=\&quot;1\&quot; as=\&quot;geometry\&quot; /&gt;\n        &lt;/mxCell&gt;\n        &lt;mxCell id=\&quot;ERkDgk-Ph-ZObwH7eIWo-6\&quot; value=\&quot;&amp;lt;div&amp;gt;&amp;lt;p style=&amp;quot;margin: 0px 0px 0px 21px; text-indent: -21px; font-variant-numeric: normal; font-variant-east-asian: normal; font-variant-alternates: normal; font-kerning: auto; font-optical-sizing: auto; font-feature-settings: normal; font-variation-settings: normal; font-variant-position: normal; font-stretch: normal; font-size: 14px; line-height: normal; font-family: &amp;amp;quot;.AppleSystemUIFontMonospaced&amp;amp;quot;; color: rgb(14, 14, 14); text-align: start;&amp;quot; class=&amp;quot;p1&amp;quot;&amp;gt;_acme-challenge.lucidya.khalidalnowaiser.tech&amp;lt;/p&amp;gt;&amp;lt;/div&amp;gt;\&quot; style=\&quot;rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;\&quot; vertex=\&quot;1\&quot; parent=\&quot;1\&quot;&gt;\n          &lt;mxGeometry x=\&quot;245\&quot; y=\&quot;45\&quot; width=\&quot;270\&quot; height=\&quot;70\&quot; as=\&quot;geometry\&quot; /&gt;\n        &lt;/mxCell&gt;\n        &lt;mxCell id=\&quot;ERkDgk-Ph-ZObwH7eIWo-8\&quot; value=\&quot;Validation Zone&amp;lt;div&amp;gt;&amp;lt;p style=&amp;quot;margin: 0px 0px 0px 21px; text-indent: -21px; font-variant-numeric: normal; font-variant-east-asian: normal; font-variant-alternates: normal; font-kerning: auto; font-optical-sizing: auto; font-feature-settings: normal; font-variation-settings: normal; font-variant-position: normal; font-stretch: normal; font-size: 14px; line-height: normal; font-family: &amp;amp;quot;.AppleSystemUIFontMonospaced&amp;amp;quot;; color: rgb(14, 14, 14); text-align: start;&amp;quot; class=&amp;quot;p1&amp;quot;&amp;gt;_acme-challenge.lucidya.khalidalnowaiser.alnowaiser.me&amp;lt;/p&amp;gt;&amp;lt;/div&amp;gt;\&quot; style=\&quot;rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;\&quot; vertex=\&quot;1\&quot; parent=\&quot;1\&quot;&gt;\n          &lt;mxGeometry x=\&quot;590\&quot; y=\&quot;47.5\&quot; width=\&quot;330\&quot; height=\&quot;65\&quot; as=\&quot;geometry\&quot; /&gt;\n        &lt;/mxCell&gt;\n        &lt;mxCell id=\&quot;ERkDgk-Ph-ZObwH7eIWo-15\&quot; style=\&quot;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.75;entryY=0;entryDx=0;entryDy=0;\&quot; edge=\&quot;1\&quot; parent=\&quot;1\&quot; source=\&quot;ERkDgk-Ph-ZObwH7eIWo-11\&quot; target=\&quot;ERkDgk-Ph-ZObwH7eIWo-1\&quot;&gt;\n          &lt;mxGeometry relative=\&quot;1\&quot; as=\&quot;geometry\&quot; /&gt;\n        &lt;/mxCell&gt;\n        &lt;mxCell id=\&quot;ERkDgk-Ph-ZObwH7eIWo-11\&quot; value=\&quot;Tries to check&amp;lt;div&amp;gt;TXT record&amp;lt;/div&amp;gt;\&quot; style=\&quot;text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;\&quot; vertex=\&quot;1\&quot; parent=\&quot;1\&quot;&gt;\n          &lt;mxGeometry x=\&quot;145\&quot; y=\&quot;40\&quot; width=\&quot;100\&quot; height=\&quot;40\&quot; as=\&quot;geometry\&quot; /&gt;\n        &lt;/mxCell&gt;\n        &lt;mxCell id=\&quot;ERkDgk-Ph-ZObwH7eIWo-12\&quot; value=\&quot;Redirect\&quot; style=\&quot;text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;\&quot; vertex=\&quot;1\&quot; parent=\&quot;1\&quot;&gt;\n          &lt;mxGeometry x=\&quot;515\&quot; y=\&quot;45\&quot; width=\&quot;70\&quot; height=\&quot;30\&quot; as=\&quot;geometry\&quot; /&gt;\n        &lt;/mxCell&gt;\n        &lt;mxCell id=\&quot;ERkDgk-Ph-ZObwH7eIWo-14\&quot; style=\&quot;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;\&quot; edge=\&quot;1\&quot; parent=\&quot;1\&quot; source=\&quot;ERkDgk-Ph-ZObwH7eIWo-13\&quot;&gt;\n          &lt;mxGeometry relative=\&quot;1\&quot; as=\&quot;geometry\&quot;&gt;\n            &lt;mxPoint x=\&quot;890\&quot; y=\&quot;40\&quot; as=\&quot;targetPoint\&quot; /&gt;\n          &lt;/mxGeometry&gt;\n        &lt;/mxCell&gt;\n        &lt;mxCell id=\&quot;ERkDgk-Ph-ZObwH7eIWo-13\&quot; value=\&quot;Contains TXT\&quot; style=\&quot;text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;\&quot; vertex=\&quot;1\&quot; parent=\&quot;1\&quot;&gt;\n          &lt;mxGeometry x=\&quot;905\&quot; width=\&quot;100\&quot; height=\&quot;30\&quot; as=\&quot;geometry\&quot; /&gt;\n        &lt;/mxCell&gt;\n        &lt;mxCell id=\&quot;ERkDgk-Ph-ZObwH7eIWo-20\&quot; value=\&quot;&amp;lt;font style=&amp;quot;font-size: 16px;&amp;quot;&amp;gt;Automatically adds TXT record when using certbot with cloudflare plugin&amp;lt;/font&amp;gt;\&quot; style=\&quot;edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];\&quot; vertex=\&quot;1\&quot; connectable=\&quot;0\&quot; parent=\&quot;1\&quot;&gt;\n          &lt;mxGeometry x=\&quot;480\&quot; as=\&quot;geometry\&quot; /&gt;\n        &lt;/mxCell&gt;\n      &lt;/root&gt;\n    &lt;/mxGraphModel&gt;\n  &lt;/diagram&gt;\n&lt;/mxfile&gt;\n&quot;}"></div>
+  </section>
+<section id="benefits" class="slide level3">
+<h3>Benefits:</h3>
+<p>By using this approach, we eliminate the need for customers to
+manually update their TXT records every 60 days.</p>
+</section>
+
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/reveal.js//dist/reveal.js"></script>
+  <script type="text/javascript" src="https://viewer.diagrams.net/js/viewer-static.min.js"></script>
+
+  <!-- reveal.js plugins -->
+  <script src="https://unpkg.com/reveal.js//plugin/notes/notes.js"></script>
+  <script src="https://unpkg.com/reveal.js//plugin/search/search.js"></script>
+  <script src="https://unpkg.com/reveal.js//plugin/zoom/zoom.js"></script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+        // Display controls in the bottom right corner
+        controls: true,
+
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: true,
+
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'bottom-right',
+
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+
+        // Display a presentation progress bar
+        progress: true,
+
+        // Display the page number of the current slide
+        slideNumber: false,
+
+        // 'all', 'print', or 'speaker'
+        showSlideNumber: 'all',
+
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+
+        // Start with 1 for the hash rather than 0
+        hashOneBasedIndex: false,
+
+        // Flags if we should monitor the hash and change slides accordingly
+        respondToHashChanges: true,
+
+        // Push each slide change to the browser history
+        history: false,
+
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+
+        // Enable the slide overview mode
+        overview: true,
+
+        // Disables the default reveal.js slide layout (scaling and centering)
+        // so that you can use custom CSS layout
+        disableLayout: false,
+
+        // Vertical centering of slides
+        center: true,
+
+        // Enables touch navigation on devices with touch input
+        touch: true,
+
+        // Loop the presentation
+        loop: false,
+
+        // Change the presentation direction to be RTL
+        rtl: false,
+
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'default',
+
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+
+        // Turns fragments on and off globally
+        fragments: true,
+
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: true,
+
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+
+        // Flags if it should be possible to pause the presentation (blackout)
+        pause: true,
+
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+
+        // Global override for autoplaying embedded media (null/true/false)
+        autoPlayMedia: null,
+
+        // Global override for preloading lazy-loaded iframes (null/true/false)
+        preloadIframes: null,
+
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+
+        // The display mode that will be used to show slides
+        display: 'block',
+
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+
+        // Transition style (none/fade/slide/convex/concave/zoom)
+        transition: 'slide',
+
+        // Transition speed (default/fast/slow)
+        transitionSpeed: 'default',
+
+        // Transition style for full page slide backgrounds
+        // (none/fade/slide/convex/concave/zoom)
+        backgroundTransition: 'fade',
+
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+
+        // reveal.js plugins
+        plugins: [
+          RevealNotes,
+          RevealSearch,
+          RevealZoom
+        ]
+      });
+    </script>
+    </body>
+</html>
