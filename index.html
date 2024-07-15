@@ -47,7 +47,80 @@
 Certbot / LetsEncrypt</h1>
   <p class="author"></p>
 </section>
+<section id="HTTP-challenge-process" class="slide level3">
+  <h3>Option 1- http-01 challenge</h3>
+  <figure>
+    <img 
+    src = "Images/HTTP-challenge-process.png" alt="Image showcasing the http challenge process" />
+    </figure>
+  
+  </section>
+  <section>
+    <h3>Pros & Cons</h3>
+    <ul>
+      <li>Pros
+        <ul>
+          <li>Easier to setup</li>
+          <li>Customer points 1 CNAME record only</li>
+        </ul>
+      </li>
+      <li>Cons
+        <ul>
+          <li>Port 80 has to be open</li>
+          <li>No wildcard domains</li>
+          <li>Challenge file must be placed on all servers</li>
+        </ul>
+      </li>
+    </ul>
 
+  </section>
+<section id="DNS-challenge-process" class="slide level3">
+  <h3>Option 2- dns-01 challenge</h3>
+  <figure>
+    <img 
+    src = "Images/DNS-challenge-process.png" alt="Image showcasing the dns challenge process" />
+    </figure>
+  
+  </section>
+  <section class="slide level3" id="figure">
+    <h3>DNS challenge process workflow</h3>
+    <div class="mxgraph" style="max-width:100%;border:1px solid transparent;" data-mxgraph="{&quot;highlight&quot;:&quot;#0000ff&quot;,&quot;nav&quot;:true,&quot;resize&quot;:true,&quot;toolbar&quot;:&quot;zoom layers tags lightbox&quot;,&quot;edit&quot;:&quot;_blank&quot;,&quot;xml&quot;:&quot;&lt;mxfile host=\&quot;app.diagrams.net\&quot; modified=\&quot;2024-07-10T09:18:44.001Z\&quot; agent=\&quot;Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36\&quot; etag=\&quot;tiZwcrxG_aN0PMYH54av\&quot; version=\&quot;24.4.0\&quot;&gt;\n  &lt;diagram name=\&quot;Page-1\&quot; id=\&quot;LtMeqzDY8btILnkB2xxZ\&quot;&gt;\n    &lt;mxGraphModel dx=\&quot;2074\&quot; dy=\&quot;2255\&quot; grid=\&quot;1\&quot; gridSize=\&quot;10\&quot; guides=\&quot;1\&quot; tooltips=\&quot;1\&quot; connect=\&quot;1\&quot; arrows=\&quot;1\&quot; fold=\&quot;1\&quot; page=\&quot;1\&quot; pageScale=\&quot;1\&quot; pageWidth=\&quot;850\&quot; pageHeight=\&quot;1100\&quot; math=\&quot;0\&quot; shadow=\&quot;0\&quot;&gt;\n      &lt;root&gt;\n        &lt;mxCell id=\&quot;0\&quot; /&gt;\n        &lt;mxCell id=\&quot;1\&quot; parent=\&quot;0\&quot; /&gt;\n        &lt;mxCell id=\&quot;ERkDgk-Ph-ZObwH7eIWo-4\&quot; style=\&quot;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;\&quot; edge=\&quot;1\&quot; parent=\&quot;1\&quot; source=\&quot;ERkDgk-Ph-ZObwH7eIWo-1\&quot; target=\&quot;ERkDgk-Ph-ZObwH7eIWo-3\&quot;&gt;\n          &lt;mxGeometry relative=\&quot;1\&quot; as=\&quot;geometry\&quot; /&gt;\n        &lt;/mxCell&gt;\n        &lt;mxCell id=\&quot;ERkDgk-Ph-ZObwH7eIWo-1\&quot; value=\&quot;lucidya.khalidalnowaiser.tech\&quot; style=\&quot;rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;\&quot; vertex=\&quot;1\&quot; parent=\&quot;1\&quot;&gt;\n          &lt;mxGeometry x=\&quot;30\&quot; y=\&quot;210\&quot; width=\&quot;170\&quot; height=\&quot;60\&quot; as=\&quot;geometry\&quot; /&gt;\n        &lt;/mxCell&gt;\n        &lt;mxCell id=\&quot;ERkDgk-Ph-ZObwH7eIWo-7\&quot; style=\&quot;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;\&quot; edge=\&quot;1\&quot; parent=\&quot;1\&quot; source=\&quot;ERkDgk-Ph-ZObwH7eIWo-2\&quot; target=\&quot;ERkDgk-Ph-ZObwH7eIWo-6\&quot;&gt;\n          &lt;mxGeometry relative=\&quot;1\&quot; as=\&quot;geometry\&quot; /&gt;\n        &lt;/mxCell&gt;\n        &lt;mxCell id=\&quot;ERkDgk-Ph-ZObwH7eIWo-19\&quot; style=\&quot;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.75;entryY=0;entryDx=0;entryDy=0;\&quot; edge=\&quot;1\&quot; parent=\&quot;1\&quot; source=\&quot;ERkDgk-Ph-ZObwH7eIWo-2\&quot; target=\&quot;ERkDgk-Ph-ZObwH7eIWo-8\&quot;&gt;\n          &lt;mxGeometry relative=\&quot;1\&quot; as=\&quot;geometry\&quot;&gt;\n            &lt;Array as=\&quot;points\&quot;&gt;\n              &lt;mxPoint x=\&quot;90\&quot; y=\&quot;10\&quot; /&gt;\n              &lt;mxPoint x=\&quot;838\&quot; y=\&quot;10\&quot; /&gt;\n            &lt;/Array&gt;\n          &lt;/mxGeometry&gt;\n        &lt;/mxCell&gt;\n        &lt;mxCell id=\&quot;ERkDgk-Ph-ZObwH7eIWo-2\&quot; value=\&quot;Lets Encrypt\&quot; style=\&quot;rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;\&quot; vertex=\&quot;1\&quot; parent=\&quot;1\&quot;&gt;\n          &lt;mxGeometry x=\&quot;30\&quot; y=\&quot;50\&quot; width=\&quot;120\&quot; height=\&quot;60\&quot; as=\&quot;geometry\&quot; /&gt;\n        &lt;/mxCell&gt;\n        &lt;mxCell id=\&quot;ERkDgk-Ph-ZObwH7eIWo-3\&quot; value=\&quot;alnowaiser.me\&quot; style=\&quot;rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;\&quot; vertex=\&quot;1\&quot; parent=\&quot;1\&quot;&gt;\n          &lt;mxGeometry x=\&quot;360\&quot; y=\&quot;210\&quot; width=\&quot;170\&quot; height=\&quot;60\&quot; as=\&quot;geometry\&quot; /&gt;\n        &lt;/mxCell&gt;\n        &lt;mxCell id=\&quot;ERkDgk-Ph-ZObwH7eIWo-5\&quot; value=\&quot;CNAME&amp;amp;nbsp;&amp;lt;div&amp;gt;Redirect&amp;lt;/div&amp;gt;\&quot; style=\&quot;text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;\&quot; vertex=\&quot;1\&quot; parent=\&quot;1\&quot;&gt;\n          &lt;mxGeometry x=\&quot;245\&quot; y=\&quot;203\&quot; width=\&quot;70\&quot; height=\&quot;40\&quot; as=\&quot;geometry\&quot; /&gt;\n        &lt;/mxCell&gt;\n        &lt;mxCell id=\&quot;ERkDgk-Ph-ZObwH7eIWo-9\&quot; style=\&quot;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;\&quot; edge=\&quot;1\&quot; parent=\&quot;1\&quot; source=\&quot;ERkDgk-Ph-ZObwH7eIWo-6\&quot; target=\&quot;ERkDgk-Ph-ZObwH7eIWo-8\&quot;&gt;\n          &lt;mxGeometry relative=\&quot;1\&quot; as=\&quot;geometry\&quot; /&gt;\n        &lt;/mxCell&gt;\n        &lt;mxCell id=\&quot;ERkDgk-Ph-ZObwH7eIWo-6\&quot; value=\&quot;&amp;lt;div&amp;gt;&amp;lt;p style=&amp;quot;margin: 0px 0px 0px 21px; text-indent: -21px; font-variant-numeric: normal; font-variant-east-asian: normal; font-variant-alternates: normal; font-kerning: auto; font-optical-sizing: auto; font-feature-settings: normal; font-variation-settings: normal; font-variant-position: normal; font-stretch: normal; font-size: 14px; line-height: normal; font-family: &amp;amp;quot;.AppleSystemUIFontMonospaced&amp;amp;quot;; color: rgb(14, 14, 14); text-align: start;&amp;quot; class=&amp;quot;p1&amp;quot;&amp;gt;_acme-challenge.lucidya.khalidalnowaiser.tech&amp;lt;/p&amp;gt;&amp;lt;/div&amp;gt;\&quot; style=\&quot;rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;\&quot; vertex=\&quot;1\&quot; parent=\&quot;1\&quot;&gt;\n          &lt;mxGeometry x=\&quot;245\&quot; y=\&quot;45\&quot; width=\&quot;270\&quot; height=\&quot;70\&quot; as=\&quot;geometry\&quot; /&gt;\n        &lt;/mxCell&gt;\n        &lt;mxCell id=\&quot;ERkDgk-Ph-ZObwH7eIWo-8\&quot; value=\&quot;Validation Zone&amp;lt;div&amp;gt;&amp;lt;p style=&amp;quot;margin: 0px 0px 0px 21px; text-indent: -21px; font-variant-numeric: normal; font-variant-east-asian: normal; font-variant-alternates: normal; font-kerning: auto; font-optical-sizing: auto; font-feature-settings: normal; font-variation-settings: normal; font-variant-position: normal; font-stretch: normal; font-size: 14px; line-height: normal; font-family: &amp;amp;quot;.AppleSystemUIFontMonospaced&amp;amp;quot;; color: rgb(14, 14, 14); text-align: start;&amp;quot; class=&amp;quot;p1&amp;quot;&amp;gt;_acme-challenge.lucidya.khalidalnowaiser.alnowaiser.me&amp;lt;/p&amp;gt;&amp;lt;/div&amp;gt;\&quot; style=\&quot;rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;\&quot; vertex=\&quot;1\&quot; parent=\&quot;1\&quot;&gt;\n          &lt;mxGeometry x=\&quot;590\&quot; y=\&quot;47.5\&quot; width=\&quot;330\&quot; height=\&quot;65\&quot; as=\&quot;geometry\&quot; /&gt;\n        &lt;/mxCell&gt;\n        &lt;mxCell id=\&quot;ERkDgk-Ph-ZObwH7eIWo-15\&quot; style=\&quot;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.75;entryY=0;entryDx=0;entryDy=0;\&quot; edge=\&quot;1\&quot; parent=\&quot;1\&quot; source=\&quot;ERkDgk-Ph-ZObwH7eIWo-11\&quot; target=\&quot;ERkDgk-Ph-ZObwH7eIWo-1\&quot;&gt;\n          &lt;mxGeometry relative=\&quot;1\&quot; as=\&quot;geometry\&quot; /&gt;\n        &lt;/mxCell&gt;\n        &lt;mxCell id=\&quot;ERkDgk-Ph-ZObwH7eIWo-11\&quot; value=\&quot;Tries to check&amp;lt;div&amp;gt;TXT record&amp;lt;/div&amp;gt;\&quot; style=\&quot;text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;\&quot; vertex=\&quot;1\&quot; parent=\&quot;1\&quot;&gt;\n          &lt;mxGeometry x=\&quot;145\&quot; y=\&quot;40\&quot; width=\&quot;100\&quot; height=\&quot;40\&quot; as=\&quot;geometry\&quot; /&gt;\n        &lt;/mxCell&gt;\n        &lt;mxCell id=\&quot;ERkDgk-Ph-ZObwH7eIWo-12\&quot; value=\&quot;Redirect\&quot; style=\&quot;text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;\&quot; vertex=\&quot;1\&quot; parent=\&quot;1\&quot;&gt;\n          &lt;mxGeometry x=\&quot;515\&quot; y=\&quot;45\&quot; width=\&quot;70\&quot; height=\&quot;30\&quot; as=\&quot;geometry\&quot; /&gt;\n        &lt;/mxCell&gt;\n        &lt;mxCell id=\&quot;ERkDgk-Ph-ZObwH7eIWo-14\&quot; style=\&quot;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;\&quot; edge=\&quot;1\&quot; parent=\&quot;1\&quot; source=\&quot;ERkDgk-Ph-ZObwH7eIWo-13\&quot;&gt;\n          &lt;mxGeometry relative=\&quot;1\&quot; as=\&quot;geometry\&quot;&gt;\n            &lt;mxPoint x=\&quot;890\&quot; y=\&quot;40\&quot; as=\&quot;targetPoint\&quot; /&gt;\n          &lt;/mxGeometry&gt;\n        &lt;/mxCell&gt;\n        &lt;mxCell id=\&quot;ERkDgk-Ph-ZObwH7eIWo-13\&quot; value=\&quot;Contains TXT\&quot; style=\&quot;text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;\&quot; vertex=\&quot;1\&quot; parent=\&quot;1\&quot;&gt;\n          &lt;mxGeometry x=\&quot;905\&quot; width=\&quot;100\&quot; height=\&quot;30\&quot; as=\&quot;geometry\&quot; /&gt;\n        &lt;/mxCell&gt;\n        &lt;mxCell id=\&quot;ERkDgk-Ph-ZObwH7eIWo-20\&quot; value=\&quot;&amp;lt;font style=&amp;quot;font-size: 16px;&amp;quot;&amp;gt;Automatically adds TXT record when using certbot with cloudflare plugin&amp;lt;/font&amp;gt;\&quot; style=\&quot;edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];\&quot; vertex=\&quot;1\&quot; connectable=\&quot;0\&quot; parent=\&quot;1\&quot;&gt;\n          &lt;mxGeometry x=\&quot;480\&quot; as=\&quot;geometry\&quot; /&gt;\n        &lt;/mxCell&gt;\n      &lt;/root&gt;\n    &lt;/mxGraphModel&gt;\n  &lt;/diagram&gt;\n&lt;/mxfile&gt;\n&quot;}"></div>
+    </section>
+  <section id="streamlining-the-process" class="slide level3">
+    <h3>Process workflow explanation</h3>
+    <p>To streamline this process, we create a “validation zone” that the
+    customer will point to using
+    <pre><code>_acme-challenge.lucidya.khalidalnowaiser.tech</code></pre></p>
+    <p>When Let’s Encrypt checks the TXT records for
+    <pre><code>_acme-challenge.lucidya.khalidalnowaiser.tech</code></pre>it will be
+    redirected to
+    <pre><code>_acme-challenge.lucidya.khalidalnowaiser.alnowaiser.me</code></pre>
+    which contains the needed TXT record value.</p>
+    </section>
+    <section>
+      <h3>Pros & Cons</h3>
+      <ul>
+        <li>Pros
+          <ul>
+            <li>Supports wildcard domains</li>
+            <li>Works well even if we have multiple web servers</li>
+            <li>Can be used even if port 80 is blocked</li>
+
+          </ul>
+        </li>
+        <li>Cons
+          <ul>
+            <li>More complex to setup from our side</li>
+            <li>Customer sets an extra CNAME records</li>
+            <li>Need to use our Cloudflare API key for TXT records</li>
+          </ul>
+        </li>
+      </ul>
+  
+    </section>
+    <section id="dns-challenge-configuration" class="slide level3">
+      <h3>dns-01 challenge config example</h3>
+      </section>
 <section id="my-setup" class="slide level3">
 <h3>My setup:</h3>
 <ul>
@@ -71,7 +144,7 @@ alt="Image displaying the prerequisites" />
 <section id="setup" class="slide level3">
 <h3>Setup:</h3>
 <p>I’ve setup an SSL for <a
-href="http://alnowaiser.me">alnowaiser.me</a></p>
+href="http://alnowaiser.me" target="_blank">alnowaiser.me</a></p>
 <figure>
 <img src="Images/setup.png" />
 <figcaption aria-hidden="true"></figcaption>
@@ -136,26 +209,38 @@ records must be updated each time the SSL certificate is renewed. This
 means the customer would need to manually update the TXT record values
 every 60 days, which is cumbersome and prone to error.</p>
 </section>
-<section id="streamlining-the-process" class="slide level3">
-<h3>Streamlining the process:</h3>
-<p>To streamline this process, we create a “validation zone” that the
-customer will point to using
-<pre><code>_acme-challenge.lucidya.khalidalnowaiser.tech</code></pre></p>
-<p>When Let’s Encrypt checks the TXT records for
-<pre><code>_acme-challenge.lucidya.khalidalnowaiser.tech</code></pre>it will be
-redirected to
-<pre><code>_acme-challenge.lucidya.khalidalnowaiser.alnowaiser.me</code></pre>
-which contains the needed TXT record value.</p>
-</section>
-<section class="slide level3" id="figure">
-  <h3>Process workflow</h3>
-  <div class="mxgraph" style="max-width:100%;border:1px solid transparent;" data-mxgraph="{&quot;highlight&quot;:&quot;#0000ff&quot;,&quot;nav&quot;:true,&quot;resize&quot;:true,&quot;toolbar&quot;:&quot;zoom layers tags lightbox&quot;,&quot;edit&quot;:&quot;_blank&quot;,&quot;xml&quot;:&quot;&lt;mxfile host=\&quot;app.diagrams.net\&quot; modified=\&quot;2024-07-10T09:18:44.001Z\&quot; agent=\&quot;Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36\&quot; etag=\&quot;tiZwcrxG_aN0PMYH54av\&quot; version=\&quot;24.4.0\&quot;&gt;\n  &lt;diagram name=\&quot;Page-1\&quot; id=\&quot;LtMeqzDY8btILnkB2xxZ\&quot;&gt;\n    &lt;mxGraphModel dx=\&quot;2074\&quot; dy=\&quot;2255\&quot; grid=\&quot;1\&quot; gridSize=\&quot;10\&quot; guides=\&quot;1\&quot; tooltips=\&quot;1\&quot; connect=\&quot;1\&quot; arrows=\&quot;1\&quot; fold=\&quot;1\&quot; page=\&quot;1\&quot; pageScale=\&quot;1\&quot; pageWidth=\&quot;850\&quot; pageHeight=\&quot;1100\&quot; math=\&quot;0\&quot; shadow=\&quot;0\&quot;&gt;\n      &lt;root&gt;\n        &lt;mxCell id=\&quot;0\&quot; /&gt;\n        &lt;mxCell id=\&quot;1\&quot; parent=\&quot;0\&quot; /&gt;\n        &lt;mxCell id=\&quot;ERkDgk-Ph-ZObwH7eIWo-4\&quot; style=\&quot;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;\&quot; edge=\&quot;1\&quot; parent=\&quot;1\&quot; source=\&quot;ERkDgk-Ph-ZObwH7eIWo-1\&quot; target=\&quot;ERkDgk-Ph-ZObwH7eIWo-3\&quot;&gt;\n          &lt;mxGeometry relative=\&quot;1\&quot; as=\&quot;geometry\&quot; /&gt;\n        &lt;/mxCell&gt;\n        &lt;mxCell id=\&quot;ERkDgk-Ph-ZObwH7eIWo-1\&quot; value=\&quot;lucidya.khalidalnowaiser.tech\&quot; style=\&quot;rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;\&quot; vertex=\&quot;1\&quot; parent=\&quot;1\&quot;&gt;\n          &lt;mxGeometry x=\&quot;30\&quot; y=\&quot;210\&quot; width=\&quot;170\&quot; height=\&quot;60\&quot; as=\&quot;geometry\&quot; /&gt;\n        &lt;/mxCell&gt;\n        &lt;mxCell id=\&quot;ERkDgk-Ph-ZObwH7eIWo-7\&quot; style=\&quot;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;\&quot; edge=\&quot;1\&quot; parent=\&quot;1\&quot; source=\&quot;ERkDgk-Ph-ZObwH7eIWo-2\&quot; target=\&quot;ERkDgk-Ph-ZObwH7eIWo-6\&quot;&gt;\n          &lt;mxGeometry relative=\&quot;1\&quot; as=\&quot;geometry\&quot; /&gt;\n        &lt;/mxCell&gt;\n        &lt;mxCell id=\&quot;ERkDgk-Ph-ZObwH7eIWo-19\&quot; style=\&quot;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.75;entryY=0;entryDx=0;entryDy=0;\&quot; edge=\&quot;1\&quot; parent=\&quot;1\&quot; source=\&quot;ERkDgk-Ph-ZObwH7eIWo-2\&quot; target=\&quot;ERkDgk-Ph-ZObwH7eIWo-8\&quot;&gt;\n          &lt;mxGeometry relative=\&quot;1\&quot; as=\&quot;geometry\&quot;&gt;\n            &lt;Array as=\&quot;points\&quot;&gt;\n              &lt;mxPoint x=\&quot;90\&quot; y=\&quot;10\&quot; /&gt;\n              &lt;mxPoint x=\&quot;838\&quot; y=\&quot;10\&quot; /&gt;\n            &lt;/Array&gt;\n          &lt;/mxGeometry&gt;\n        &lt;/mxCell&gt;\n        &lt;mxCell id=\&quot;ERkDgk-Ph-ZObwH7eIWo-2\&quot; value=\&quot;Lets Encrypt\&quot; style=\&quot;rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;\&quot; vertex=\&quot;1\&quot; parent=\&quot;1\&quot;&gt;\n          &lt;mxGeometry x=\&quot;30\&quot; y=\&quot;50\&quot; width=\&quot;120\&quot; height=\&quot;60\&quot; as=\&quot;geometry\&quot; /&gt;\n        &lt;/mxCell&gt;\n        &lt;mxCell id=\&quot;ERkDgk-Ph-ZObwH7eIWo-3\&quot; value=\&quot;alnowaiser.me\&quot; style=\&quot;rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;\&quot; vertex=\&quot;1\&quot; parent=\&quot;1\&quot;&gt;\n          &lt;mxGeometry x=\&quot;360\&quot; y=\&quot;210\&quot; width=\&quot;170\&quot; height=\&quot;60\&quot; as=\&quot;geometry\&quot; /&gt;\n        &lt;/mxCell&gt;\n        &lt;mxCell id=\&quot;ERkDgk-Ph-ZObwH7eIWo-5\&quot; value=\&quot;CNAME&amp;amp;nbsp;&amp;lt;div&amp;gt;Redirect&amp;lt;/div&amp;gt;\&quot; style=\&quot;text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;\&quot; vertex=\&quot;1\&quot; parent=\&quot;1\&quot;&gt;\n          &lt;mxGeometry x=\&quot;245\&quot; y=\&quot;203\&quot; width=\&quot;70\&quot; height=\&quot;40\&quot; as=\&quot;geometry\&quot; /&gt;\n        &lt;/mxCell&gt;\n        &lt;mxCell id=\&quot;ERkDgk-Ph-ZObwH7eIWo-9\&quot; style=\&quot;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;\&quot; edge=\&quot;1\&quot; parent=\&quot;1\&quot; source=\&quot;ERkDgk-Ph-ZObwH7eIWo-6\&quot; target=\&quot;ERkDgk-Ph-ZObwH7eIWo-8\&quot;&gt;\n          &lt;mxGeometry relative=\&quot;1\&quot; as=\&quot;geometry\&quot; /&gt;\n        &lt;/mxCell&gt;\n        &lt;mxCell id=\&quot;ERkDgk-Ph-ZObwH7eIWo-6\&quot; value=\&quot;&amp;lt;div&amp;gt;&amp;lt;p style=&amp;quot;margin: 0px 0px 0px 21px; text-indent: -21px; font-variant-numeric: normal; font-variant-east-asian: normal; font-variant-alternates: normal; font-kerning: auto; font-optical-sizing: auto; font-feature-settings: normal; font-variation-settings: normal; font-variant-position: normal; font-stretch: normal; font-size: 14px; line-height: normal; font-family: &amp;amp;quot;.AppleSystemUIFontMonospaced&amp;amp;quot;; color: rgb(14, 14, 14); text-align: start;&amp;quot; class=&amp;quot;p1&amp;quot;&amp;gt;_acme-challenge.lucidya.khalidalnowaiser.tech&amp;lt;/p&amp;gt;&amp;lt;/div&amp;gt;\&quot; style=\&quot;rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;\&quot; vertex=\&quot;1\&quot; parent=\&quot;1\&quot;&gt;\n          &lt;mxGeometry x=\&quot;245\&quot; y=\&quot;45\&quot; width=\&quot;270\&quot; height=\&quot;70\&quot; as=\&quot;geometry\&quot; /&gt;\n        &lt;/mxCell&gt;\n        &lt;mxCell id=\&quot;ERkDgk-Ph-ZObwH7eIWo-8\&quot; value=\&quot;Validation Zone&amp;lt;div&amp;gt;&amp;lt;p style=&amp;quot;margin: 0px 0px 0px 21px; text-indent: -21px; font-variant-numeric: normal; font-variant-east-asian: normal; font-variant-alternates: normal; font-kerning: auto; font-optical-sizing: auto; font-feature-settings: normal; font-variation-settings: normal; font-variant-position: normal; font-stretch: normal; font-size: 14px; line-height: normal; font-family: &amp;amp;quot;.AppleSystemUIFontMonospaced&amp;amp;quot;; color: rgb(14, 14, 14); text-align: start;&amp;quot; class=&amp;quot;p1&amp;quot;&amp;gt;_acme-challenge.lucidya.khalidalnowaiser.alnowaiser.me&amp;lt;/p&amp;gt;&amp;lt;/div&amp;gt;\&quot; style=\&quot;rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;\&quot; vertex=\&quot;1\&quot; parent=\&quot;1\&quot;&gt;\n          &lt;mxGeometry x=\&quot;590\&quot; y=\&quot;47.5\&quot; width=\&quot;330\&quot; height=\&quot;65\&quot; as=\&quot;geometry\&quot; /&gt;\n        &lt;/mxCell&gt;\n        &lt;mxCell id=\&quot;ERkDgk-Ph-ZObwH7eIWo-15\&quot; style=\&quot;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.75;entryY=0;entryDx=0;entryDy=0;\&quot; edge=\&quot;1\&quot; parent=\&quot;1\&quot; source=\&quot;ERkDgk-Ph-ZObwH7eIWo-11\&quot; target=\&quot;ERkDgk-Ph-ZObwH7eIWo-1\&quot;&gt;\n          &lt;mxGeometry relative=\&quot;1\&quot; as=\&quot;geometry\&quot; /&gt;\n        &lt;/mxCell&gt;\n        &lt;mxCell id=\&quot;ERkDgk-Ph-ZObwH7eIWo-11\&quot; value=\&quot;Tries to check&amp;lt;div&amp;gt;TXT record&amp;lt;/div&amp;gt;\&quot; style=\&quot;text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;\&quot; vertex=\&quot;1\&quot; parent=\&quot;1\&quot;&gt;\n          &lt;mxGeometry x=\&quot;145\&quot; y=\&quot;40\&quot; width=\&quot;100\&quot; height=\&quot;40\&quot; as=\&quot;geometry\&quot; /&gt;\n        &lt;/mxCell&gt;\n        &lt;mxCell id=\&quot;ERkDgk-Ph-ZObwH7eIWo-12\&quot; value=\&quot;Redirect\&quot; style=\&quot;text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;\&quot; vertex=\&quot;1\&quot; parent=\&quot;1\&quot;&gt;\n          &lt;mxGeometry x=\&quot;515\&quot; y=\&quot;45\&quot; width=\&quot;70\&quot; height=\&quot;30\&quot; as=\&quot;geometry\&quot; /&gt;\n        &lt;/mxCell&gt;\n        &lt;mxCell id=\&quot;ERkDgk-Ph-ZObwH7eIWo-14\&quot; style=\&quot;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;\&quot; edge=\&quot;1\&quot; parent=\&quot;1\&quot; source=\&quot;ERkDgk-Ph-ZObwH7eIWo-13\&quot;&gt;\n          &lt;mxGeometry relative=\&quot;1\&quot; as=\&quot;geometry\&quot;&gt;\n            &lt;mxPoint x=\&quot;890\&quot; y=\&quot;40\&quot; as=\&quot;targetPoint\&quot; /&gt;\n          &lt;/mxGeometry&gt;\n        &lt;/mxCell&gt;\n        &lt;mxCell id=\&quot;ERkDgk-Ph-ZObwH7eIWo-13\&quot; value=\&quot;Contains TXT\&quot; style=\&quot;text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;\&quot; vertex=\&quot;1\&quot; parent=\&quot;1\&quot;&gt;\n          &lt;mxGeometry x=\&quot;905\&quot; width=\&quot;100\&quot; height=\&quot;30\&quot; as=\&quot;geometry\&quot; /&gt;\n        &lt;/mxCell&gt;\n        &lt;mxCell id=\&quot;ERkDgk-Ph-ZObwH7eIWo-20\&quot; value=\&quot;&amp;lt;font style=&amp;quot;font-size: 16px;&amp;quot;&amp;gt;Automatically adds TXT record when using certbot with cloudflare plugin&amp;lt;/font&amp;gt;\&quot; style=\&quot;edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];\&quot; vertex=\&quot;1\&quot; connectable=\&quot;0\&quot; parent=\&quot;1\&quot;&gt;\n          &lt;mxGeometry x=\&quot;480\&quot; as=\&quot;geometry\&quot; /&gt;\n        &lt;/mxCell&gt;\n      &lt;/root&gt;\n    &lt;/mxGraphModel&gt;\n  &lt;/diagram&gt;\n&lt;/mxfile&gt;\n&quot;}"></div>
-  </section>
+
 <section id="benefits" class="slide level3">
 <h3>Benefits:</h3>
 <p>By using this approach, we eliminate the need for customers to
 manually update their TXT records every 60 days.</p>
 </section>
+<section id="potential-issues" class="slide level3">
+  <h3>Potential Issues</h3>
+  <ul>
+    <li>
+      <a href="http://survey.bagher.me/" target="_blank">CNAME Cross-User Banned</a>
+      <ul>
+        <li>
+          Potential Fix: Ensure that the user's cname record isn't proxied if they're using cloudflare</a>
+        </li>
+      </ul>
+    </li>
+    <li><a href="http://df.khalidalnowaiser.tech/3" target="_blank">Domain Forwarding</a></li>
+    <li>Other security / lucidya-specific issues</li>
+  </ul>
+  </section>
+  <section id="sources" class="slide level3">
+    <h3>Sources</h3>
+    <ul>
+      <li><a href="https://community.letsencrypt.org/t/do-i-have-to-change-my-txt-recordds-every-30-days/58546/8" target="_blank">Seth Schoen, part of the team who've worked on Lets Encrypt / Certbot</a></li>
+      <li><a href="https://letsencrypt.org/docs/challenge-types/#dns-01-challenge" target="_blank">DNS-01 challenge</a></li>
+      <li><a href="https://saascustomdomains.com/blog/posts/the-ultimate-guide-to-custom-domains-for-your-saas-app" target="_blank">SaaS Custom Domains - The Ultimate Guide To Custom Domains For Your SaaS App</a></li>
+
+    </ul>
+    
+    </section>
+   
 
     </div>
   </div>
